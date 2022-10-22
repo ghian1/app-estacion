@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="stylesheet" href="styledonaciones.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;900&family=Ubuntu:wght@300;500;700&display=swap" rel="stylesheet">
+</head>
+<body bgcolor="#D0D0AB">
+
+<div class="title">
+
+<h1><center>Estaciones</center></h1>
+
+</div>
+<template id="tpl__estacion">
+<a href="" class="btn-estacion">	
+<div class="card">
+	<div class="card__title"> 
+		</div>
+		<div class="card__ubicacion"> 
+		</div>
+		<div class="card__visitas"> 
+		</div>
+</div>
+</a>
+</template>
+
+<div id="listar"></div>
+
+
+
+
+	<script type="text/javascript">
+
+loadEstaciones().then(estaciones =>{
+	estaciones.forEach(estacion=>{
+		createEstacion(estacion)
+	})
+})
+
+		function createEstacion(data){
+		const tpl=tpl__estacion.content;
+		const clon=tpl.cloneNode(true);
+		
+		console.log(clon);
+		clon.querySelector('.card__title').textContent=data.apodo;
+		clon.querySelector('.card__ubicacion').textContent=data.ubicacion;
+		clon.querySelector('.card__visitas').textContent=data.visitas;
+		clon.querySelector('.btn-estacion').setAttribute("href", "./estacion.php?chipid="+data.chipId);
+		listar.appendChild(clon);
+		}
+
+
+		async function loadEstaciones(){
+		const response= await fetch("api/index.php?mode=list-stations");
+		const data = await response.json();
+		return data;
+
+		}
+
+	</script>
+</body>
+</html>
